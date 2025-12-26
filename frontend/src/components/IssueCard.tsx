@@ -15,6 +15,8 @@ interface IssueCardProps {
   status: IssueStatus;
   imageUrl?: string;
   createdAt: string;
+  studentName?: string;
+  studentEmail?: string;
   onPress?: () => void;
 }
 
@@ -25,6 +27,8 @@ export const IssueCard: React.FC<IssueCardProps> = ({
   status,
   imageUrl,
   createdAt,
+  studentName,
+  studentEmail,
   onPress,
 }) => {
   const formatDate = (dateString: string) => {
@@ -48,6 +52,13 @@ export const IssueCard: React.FC<IssueCardProps> = ({
       <Text style={styles.description} numberOfLines={2}>
         {description}
       </Text>
+
+      {(studentName || studentEmail) && (
+        <View style={styles.studentInfo}>
+          <Text style={styles.studentLabel}>Reported by:</Text>
+          <Text style={styles.studentName}>{studentName || studentEmail}</Text>
+        </View>
+      )}
 
       {imageUrl && (
         <Image
@@ -101,6 +112,25 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
     marginBottom: theme.spacing.sm,
     lineHeight: 22,
+  },
+  studentInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.sm,
+    backgroundColor: theme.colors.primaryLight,
+    borderRadius: theme.borderRadius.small,
+  },
+  studentLabel: {
+    fontSize: theme.typography.caption.fontSize,
+    color: theme.colors.textSecondary,
+    marginRight: theme.spacing.xs,
+  },
+  studentName: {
+    fontSize: theme.typography.caption.fontSize,
+    color: theme.colors.text,
+    fontWeight: '600',
   },
   image: {
     width: '100%',

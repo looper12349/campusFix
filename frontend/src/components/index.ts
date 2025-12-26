@@ -7,3 +7,4 @@ export { CategoryBadge } from './CategoryBadge';
 export { Toast } from './Toast';
 export { SkeletonLoader, IssueCardSkeleton } from './SkeletonLoader';
 export { EmptyState } from './EmptyState';
+export { FilterBottomSheet } from './FilterBottomSheet';

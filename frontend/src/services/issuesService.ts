@@ -34,10 +34,14 @@ class IssuesService {
       const queryString = params.toString();
       const url = `/issues/my${queryString ? `?${queryString}` : ''}`;
 
-      const response = await apiClient.get<ApiResponse<Issue[]>>(url);
+      const response = await apiClient.get<ApiResponse<any[]>>(url);
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return response.data.data.map((issue: any) => ({
+          ...issue,
+          _id: issue.id || issue._id,
+        }));
       }
       
       return [];
@@ -68,10 +72,14 @@ class IssuesService {
       const queryString = params.toString();
       const url = `/issues${queryString ? `?${queryString}` : ''}`;
 
-      const response = await apiClient.get<ApiResponse<Issue[]>>(url);
+      const response = await apiClient.get<ApiResponse<any[]>>(url);
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return response.data.data.map((issue: any) => ({
+          ...issue,
+          _id: issue.id || issue._id,
+        }));
       }
       
       return [];
@@ -97,7 +105,7 @@ class IssuesService {
         formData.append('image', issueData.image as any);
       }
 
-      const response = await apiClient.post<ApiResponse<Issue>>(
+      const response = await apiClient.post<ApiResponse<any>>(
         '/issues',
         formData,
         {
@@ -108,7 +116,11 @@ class IssuesService {
       );
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return {
+          ...response.data.data,
+          _id: response.data.data.id || response.data.data._id,
+        };
       }
       
       throw new Error('Invalid response from server');
@@ -125,13 +137,17 @@ class IssuesService {
    */
   async updateIssueStatus(issueId: string, status: IssueStatus): Promise<Issue> {
     try {
-      const response = await apiClient.patch<ApiResponse<Issue>>(
+      const response = await apiClient.patch<ApiResponse<any>>(
         `/issues/${issueId}/status`,
         { status }
       );
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return {
+          ...response.data.data,
+          _id: response.data.data.id || response.data.data._id,
+        };
       }
       
       throw new Error('Invalid response from server');
@@ -148,13 +164,17 @@ class IssuesService {
    */
   async addRemark(issueId: string, remark: string): Promise<Issue> {
     try {
-      const response = await apiClient.post<ApiResponse<Issue>>(
+      const response = await apiClient.post<ApiResponse<any>>(
         `/issues/${issueId}/remarks`,
         { remark }
       );
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return {
+          ...response.data.data,
+          _id: response.data.data.id || response.data.data._id,
+        };
       }
       
       throw new Error('Invalid response from server');
@@ -170,10 +190,14 @@ class IssuesService {
    */
   async getIssueById(issueId: string): Promise<Issue> {
     try {
-      const response = await apiClient.get<ApiResponse<Issue>>(`/issues/${issueId}`);
+      const response = await apiClient.get<ApiResponse<any>>(`/issues/${issueId}`);
       
       if (response.data.data) {
-        return response.data.data;
+        // Transform id to _id for frontend compatibility
+        return {
+          ...response.data.data,
+          _id: response.data.data.id || response.data.data._id,
+        };
       }
       
       throw new Error('Invalid response from server');

@@ -12,6 +12,8 @@ export type AdminIssuesStackParamList = {
   AdminIssueDetail: { issueId: string };
 };
 
+export type AdminStackParamList = AdminIssuesStackParamList;
+
 export type AdminTabParamList = {
   AllIssuesTab: undefined;
   ProfileTab: undefined;

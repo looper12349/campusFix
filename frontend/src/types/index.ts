@@ -23,7 +23,11 @@ export interface Issue {
   category: Category;
   status: IssueStatus;
   imageUrl?: string;
-  createdBy: string;
+  createdBy: string | {
+    _id: string;
+    name: string;
+    email: string;
+  };
   remarks: Remark[];
   createdAt: string;
   updatedAt: string;
